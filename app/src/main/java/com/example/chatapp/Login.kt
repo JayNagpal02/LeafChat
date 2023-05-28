@@ -7,7 +7,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class Login : AppCompatActivity() {
 
@@ -15,9 +16,11 @@ class Login : AppCompatActivity() {
     private lateinit var edtPassword: EditText
     private lateinit var btnLogin: Button
     private lateinit var btnSignUp: Button
+    private lateinit var role: String
 
-//    firebase authentication
+    //    firebase authentication
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mDbRef: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +30,7 @@ class Login : AppCompatActivity() {
         supportActionBar?.hide()
 
         mAuth = FirebaseAuth.getInstance()
+        mDbRef = FirebaseDatabase.getInstance().getReference()
 
         edtEmail = findViewById(R.id.edt_email)
         edtPassword = findViewById(R.id.edt_password)
@@ -34,12 +38,12 @@ class Login : AppCompatActivity() {
         btnSignUp = findViewById(R.id.btnSignUp)
 
 
-        btnSignUp.setOnClickListener() {
+        btnSignUp.setOnClickListener {
             val intent = Intent(this, SignUp::class.java)
             startActivity(intent)
         }
 
-        btnLogin.setOnClickListener() {
+        btnLogin.setOnClickListener {
             val email = edtEmail.text.toString()
             val password = edtPassword.text.toString()
 
@@ -47,18 +51,34 @@ class Login : AppCompatActivity() {
         }
     }
 
-    private fun login (email: String, password: String) {
+    private fun login(email: String, password: String) {
         // logic for logging user
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // code for logging in user
-                    val intent = Intent(this@Login, MainActivity::class.java)
-                    finish()
-                    startActivity(intent)
-                } else {
+                    role = "Manager"
+                    when (role) {
+                        "Manager" -> {
+                            val intent = Intent(this@Login, MainActivity::class.java)
+                            finish()
+                            startActivity(intent)
+                        }
+                        "Admin" -> {
+                            val intent = Intent(this@Login, AdminActivity::class.java)
+                            finish()
+                            startActivity(intent)
+                        }
+                        else -> {
+                            val intent = Intent(this@Login, EmployeeActivity::class.java)
+                            finish()
+                            startActivity(intent)
+                        }
+                    }
+                }
+                else
+                {
                     // If sign in fails, display a message to the user.
-                    Toast.makeText(this@Login,"User does not exist",Toast.LENGTH_SHORT,).show()
+                    Toast.makeText(this@Login, "User does not exist", Toast.LENGTH_SHORT).show()
                 }
             }
     }

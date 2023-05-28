@@ -37,11 +37,11 @@ class MainActivity : AppCompatActivity() {
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         userRecyclerView.adapter = adapter
 
-        mDbRef.child("user").addValueEventListener(object: ValueEventListener {
+        mDbRef.child("user").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 userList.clear()
-                for(postSnapshot in snapshot.children) {
+                for (postSnapshot in snapshot.children) {
 
                     val currentUser = postSnapshot.getValue(User::class.java)
 
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if(item.itemId == R.id.logout) {
+        if (item.itemId == R.id.logout) {
             // write the logic for logout
             mAuth.signOut()
             val intent = Intent(this@MainActivity, Login::class.java)

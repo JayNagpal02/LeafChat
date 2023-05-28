@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Leaf Chat</string>
+    <string-array name="spinner_items">
+        <item>Employee</item>
+        <item>Manager</item>
+        <item>Admin</item>
+    </string-array>
 </resources>
