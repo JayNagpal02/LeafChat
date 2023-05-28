@@ -13,7 +13,9 @@
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:src="@drawable/logo" />
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/logo"
+        tools:ignore="ImageContrastCheck" />
 
     <EditText
         android:id="@+id/edt_name"
@@ -24,9 +26,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/edt_background"
-        android:hint="Name"
+        android:hint="@string/name"
         android:inputType="text"
-        android:paddingLeft="13dp" />
+        android:paddingStart="13dp"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/edt_email"
@@ -37,9 +40,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/edt_background"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:paddingLeft="13dp" />
+        android:paddingStart="13dp"
+        android:importantForAutofill="no"/>
 
     <EditText
         android:id="@+id/edt_password"
@@ -50,9 +54,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/edt_background"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingLeft="13dp" />
+        android:paddingStart="13dp"
+        android:importantForAutofill="no"/>
 
     <Spinner
         android:id="@+id/spinnerRole"
@@ -65,7 +70,7 @@
         android:background="@drawable/edt_background"
         android:entries="@array/spinner_items"
         android:layout_below="@id/edt_password"
-        android:paddingLeft="5dp"
+        android:paddingStart="5dp"
         />
 
     <Button
@@ -76,16 +81,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_background"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:textColor="@color/white"
         android:textSize="20sp" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/edt_password"
-        android:layout_marginEnd="391dp">
-
-    </com.google.android.material.chip.ChipGroup>
 
 </RelativeLayout>

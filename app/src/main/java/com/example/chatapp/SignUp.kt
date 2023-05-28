@@ -57,7 +57,7 @@ class SignUp : AppCompatActivity() {
             }
         }
 
-        btnSignUp.setOnClickListener() {
+        btnSignUp.setOnClickListener {
             val email = edtEmail.text.toString()
             val password = edtPassword.text.toString()
             val name = edtName.text.toString()
@@ -82,7 +82,7 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun addUserToDatabase(name: String, email: String, uid: String, role: String) {
-        mDbRef = FirebaseDatabase.getInstance().getReference()
+        mDbRef = FirebaseDatabase.getInstance().reference
         mDbRef.child("user").child(uid).setValue(User(name, email, uid, role))
     }
 }

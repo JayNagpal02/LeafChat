@@ -10,10 +10,11 @@
         android:id="@+id/app_logo"
         android:layout_width="250dp"
         android:layout_height="150dp"
-        android:src="@drawable/logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        />
+        android:src="@drawable/logo"
+        tools:ignore="ImageContrastCheck"
+        android:importantForAccessibility="no" />
     
     <EditText
         android:id="@+id/edt_email"
@@ -21,13 +22,13 @@
         android:layout_height="50dp"
         android:layout_below="@id/app_logo"
         android:layout_marginTop="20dp"
-        android:hint="Email"
+        android:hint="@string/email"
         android:background="@drawable/edt_background"
         android:inputType="textEmailAddress"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:paddingLeft="13dp"
-        />
+        android:paddingStart="13dp"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/edt_password"
@@ -36,19 +37,19 @@
         android:layout_below="@id/edt_email"
         android:layout_marginTop="10dp"
         android:background="@drawable/edt_background"
-        android:hint="Password"
-        android:paddingLeft="13dp"
+        android:hint="@string/password"
+        android:paddingStart="13dp"
         android:inputType="textPassword"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        />
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edt_password"
-        android:text="Log In"
+        android:text="@string/log_in"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -61,7 +62,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnLogin"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textSize="20sp"
