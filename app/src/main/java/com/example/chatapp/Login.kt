@@ -56,27 +56,11 @@ class Login : AppCompatActivity() {
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    role = "Manager"
-                    when (role) {
-                        "Manager" -> {
-                            val intent = Intent(this@Login, MainActivity::class.java)
-                            finish()
-                            startActivity(intent)
-                        }
-                        "Admin" -> {
-                            val intent = Intent(this@Login, AdminActivity::class.java)
-                            finish()
-                            startActivity(intent)
-                        }
-                        else -> {
-                            val intent = Intent(this@Login, EmployeeActivity::class.java)
-                            finish()
-                            startActivity(intent)
-                        }
-                    }
-                }
-                else
-                {
+                    role = "Employee"
+                    val intent = Intent(this@Login, MainActivity::class.java)
+                    finish()
+                    startActivity(intent)
+                } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(this@Login, "User does not exist", Toast.LENGTH_SHORT).show()
                 }

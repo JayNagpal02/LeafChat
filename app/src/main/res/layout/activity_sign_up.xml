@@ -43,7 +43,7 @@
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:paddingStart="13dp"
-        android:importantForAutofill="no"/>
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/edt_password"
@@ -57,27 +57,27 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:paddingStart="13dp"
-        android:importantForAutofill="no"/>
+        android:importantForAutofill="no" />
 
-    <Spinner
-        android:id="@+id/spinnerRole"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:paddingVertical="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/edt_background"
-        android:entries="@array/spinner_items"
-        android:layout_below="@id/edt_password"
-        android:paddingStart="5dp"
-        />
+    <!--    <Spinner-->
+    <!--        android:id="@+id/spinnerRole"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginLeft="20dp"-->
+    <!--        android:paddingVertical="15dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginRight="20dp"-->
+    <!--        android:background="@drawable/edt_background"-->
+    <!--        android:entries="@array/spinner_items"-->
+    <!--        android:layout_below="@id/edt_password"-->
+    <!--        android:paddingStart="5dp"-->
+    <!--        />-->
 
     <Button
         android:id="@+id/btnSignUp"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinnerRole"
+        android:layout_below="@+id/edt_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_background"
