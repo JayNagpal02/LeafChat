@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class UserAdapter(val context: Context, val userList: ArrayList<User>): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
-
-
+class UserAdapter(val context: Context, val userList: ArrayList<User>) :
+    RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
 //        these are the concepts of recycler view
@@ -25,7 +24,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>): Recycler
         holder.textName.text = currentUser.name
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(context,ChatActivity::class.java)
+            val intent = Intent(context, ChatActivity::class.java)
 
             intent.putExtra("name", currentUser.name)
             intent.putExtra("uid", currentUser.uid)
@@ -39,9 +38,8 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>): Recycler
         return userList.size
     }
 
-    class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textName = itemView.findViewById<TextView>(R.id.txt_name)
-
     }
 
 }

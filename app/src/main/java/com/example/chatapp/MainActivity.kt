@@ -37,29 +37,21 @@ class MainActivity : AppCompatActivity() {
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         userRecyclerView.adapter = adapter
 
-        mDbRef.child("user").addValueEventListener(object : ValueEventListener {
+        mDbRef.child("users").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-
                 userList.clear()
                 for (postSnapshot in snapshot.children) {
-
                     val currentUser = postSnapshot.getValue(User::class.java)
-
                     if (mAuth.currentUser?.uid != currentUser?.uid) {
                         userList.add(currentUser!!)
                     }
-
                 }
                 adapter.notifyDataSetChanged()
-
             }
 
             override fun onCancelled(error: DatabaseError) {
-
             }
-
         })
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
