@@ -23,7 +23,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messageList: ArrayList<Message>
     private lateinit var mDbRef: DatabaseReference
 
-//    receiverRoom and senderRoom are used to create a private/unique room between sender and receive so that the messages are private and
+    //    receiverRoom and senderRoom are used to create a private/unique room between sender and receive so that the messages are private and
 //    are not reflect to all the users
     private var receiverRoom: String? = null
     private var senderRoom: String? = null
@@ -53,38 +53,43 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.adapter = messageAdapter
 
         // logic for adding data to  recyclerView
-        mDbRef.child("chats").child(senderRoom!!).child("messages").addValueEventListener(object: ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(snapshot: DataSnapshot) {
+        mDbRef.child("chats").child(senderRoom!!).child("messages")
+            .addValueEventListener(object : ValueEventListener {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onDataChange(snapshot: DataSnapshot) {
 
-                messageList.clear()
+                    messageList.clear()
 
-                for(postSnapshot in snapshot.children) {
+                    for (postSnapshot in snapshot.children) {
 
-                    val message = postSnapshot.getValue(Message::class.java)
-                    messageList.add(message!!)
+                        val message = postSnapshot.getValue(Message::class.java)
+                        messageList.add(message!!)
+
+                    }
+                    messageAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
 
                 }
-                messageAdapter.notifyDataSetChanged()
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-        })
+            })
 
 
         // adding the message to database
         sendButton.setOnClickListener {
 
             val message = messageBox.text.toString()
-            val messageObject = Message(message, senderUid)
 
-            mDbRef.child("chats").child(senderRoom!!).child("messages").push().setValue((messageObject)).addOnSuccessListener {
-                mDbRef.child("chats").child(receiverRoom!!).child("messages").push().setValue((messageObject))
+            if (message != "") {
+                val messageObject = Message(message, senderUid)
+
+                mDbRef.child("chats").child(senderRoom!!).child("messages").push()
+                    .setValue((messageObject)).addOnSuccessListener {
+                        mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
+                            .setValue((messageObject))
+                    }
             }
-
             messageBox.setText("")
         }
     }
