@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class ChatActivity : AppCompatActivity() {
+    val aesKey = CryptoUtils.generateAESKey()
 
     private lateinit var chatRecyclerView: RecyclerView
     private lateinit var messageBox: EditText
@@ -52,7 +53,7 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
 
-        // logic for adding data to  recyclerView
+        // logic for adding data to recyclerView
         mDbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object : ValueEventListener {
                 @SuppressLint("NotifyDataSetChanged")
@@ -82,7 +83,9 @@ class ChatActivity : AppCompatActivity() {
             val message = messageBox.text.toString()
 
             if (message != "") {
-                val messageObject = Message(message, senderUid)
+                val encryptedData = CryptoUtils.encryptAES(message, aesKey).toString()
+
+                val messageObject = Message(encryptedData, senderUid)
 
                 mDbRef.child("chats").child(senderRoom!!).child("messages").push()
                     .setValue((messageObject)).addOnSuccessListener {
