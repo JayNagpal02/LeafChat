@@ -1,5 +1,7 @@
-/** The `Message` class is a Kotlin class that represents a chat message and contains properties for the
-message content and sender ID. */
+/**
+ * The `Message` class is a Kotlin class that represents a chat message and contains properties for
+ * the message content and sender ID.
+ */
 package com.example.chatapp
 
 class Message {
