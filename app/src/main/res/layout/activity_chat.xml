@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/backButton"-->
-    <!--        android:layout_width="50dp"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:rotationY="@integer/material_motion_duration_medium_1"-->
-    <!--        android:layout_weight="1"-->
-    <!--        android:contentDescription="@string/send_btn"-->
-    <!--        android:src="@drawable/send" />-->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:rotationY="@integer/material_motion_duration_medium_1"
+        android:contentDescription="@string/back_btn"
+        android:src="@drawable/send" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
@@ -21,25 +20,25 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/linearLayout"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="33dp"
         android:layout_marginBottom="-2dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="100"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:weightSum="100">
 
         <EditText
             android:id="@+id/messageBox"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_weight="85"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/message_box_background"
             android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="85"
+            android:background="@drawable/message_box_background"
             android:hint="@string/type_a_message"
             android:paddingStart="10dp" />
 
@@ -47,9 +46,9 @@
             android:id="@+id/sendButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/send"
             android:layout_weight="15"
-            android:contentDescription="@string/send_btn" />
+            android:contentDescription="@string/send_btn"
+            android:src="@drawable/send" />
 
     </LinearLayout>
 

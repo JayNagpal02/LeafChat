@@ -10,6 +10,7 @@
     <string name="jay">Jay</string>
     <string name="type_a_message">Type a message</string>
     <string name="send_btn">send_btn</string>
+    <string name="back_btn">back_btn</string>
     <string name="decryption_error">Decryption Error</string>
     <string-array name="spinner_items">
         <item>Employee</item>
