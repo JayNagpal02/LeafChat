@@ -136,6 +136,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         // back to @MainActivity
+        // FIXME:
         backButton.setOnClickListener {
             val intent = Intent(this@ChatActivity, MainActivity::class.java)
             finish()

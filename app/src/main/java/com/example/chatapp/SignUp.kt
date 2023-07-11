@@ -76,13 +76,28 @@ class SignUp : AppCompatActivity() {
         // logic of creating user
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                // code for jumping to home activity
-                addUserToDatabase(
-                        name,
-                        email,
-                        mAuth.currentUser?.uid!!
-                ) // mAuth.currentUser?.uid!! means it is null safe
-                val intent = Intent(this@SignUp, MainActivity::class.java)
+                // sign in success,saving data to firebase and redirect to the home activity
+                mAuth.currentUser?.sendEmailVerification()
+                    ?.addOnSuccessListener {
+                        Toast.makeText(
+                            this,
+                            "Please Verify your Email",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        addUserToDatabase(
+                            name,
+                            email,
+                            mAuth.currentUser?.uid!!
+                        ) // mAuth.currentUser?.uid!! means it is null safe
+                    }
+                    ?.addOnFailureListener {
+                        Toast.makeText(
+                            this,
+                            it.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                val intent = Intent(this@SignUp, Login::class.java)
                 finish()
                 startActivity(intent)
             } else {
