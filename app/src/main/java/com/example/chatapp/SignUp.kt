@@ -63,40 +63,34 @@ class SignUp : AppCompatActivity() {
     }
 
     /**
-     * The signUp function creates a user with the provided name, email, and password, and adds the
-     * user to the database, then redirects to the home activity if successful.
+     * The `signUp` function creates a user with the provided name, email, and password, and handles
+     * the success and failure cases accordingly.
      *
-     * @param name The name of the user signing up.
+     * @param name The name parameter is a String that represents the name of the user signing up.
      * @param email The email parameter is a string that represents the email address of the user
      * signing up.
-     * @param password The password parameter is a String that represents the user's password for
-     * signing up.
+     * @param password The password parameter is a String that represents the password entered by
+     * the user during the sign-up process.
      */
     private fun signUp(name: String, email: String, password: String) {
         // logic of creating user
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 // sign in success,saving data to firebase and redirect to the home activity
-                mAuth.currentUser?.sendEmailVerification()
-                    ?.addOnSuccessListener {
-                        Toast.makeText(
-                            this,
-                            "Please Verify your Email",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        addUserToDatabase(
-                            name,
-                            email,
-                            mAuth.currentUser?.uid!!
-                        ) // mAuth.currentUser?.uid!! means it is null safe
-                    }
-                    ?.addOnFailureListener {
-                        Toast.makeText(
-                            this,
-                            it.toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                mAuth.currentUser
+                        ?.sendEmailVerification()
+                        ?.addOnSuccessListener {
+                            Toast.makeText(this, "Please Verify your Email", Toast.LENGTH_SHORT)
+                                    .show()
+                            addUserToDatabase(
+                                    name,
+                                    email,
+                                    mAuth.currentUser?.uid!!
+                            ) // mAuth.currentUser?.uid!! means it is null safe
+                        }
+                        ?.addOnFailureListener {
+                            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+                        }
                 val intent = Intent(this@SignUp, Login::class.java)
                 finish()
                 startActivity(intent)

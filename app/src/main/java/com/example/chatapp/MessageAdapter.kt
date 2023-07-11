@@ -18,13 +18,15 @@ import com.google.firebase.auth.FirebaseAuth
 import javax.crypto.SecretKey
 
 class MessageAdapter(
-    private val context: Context,
-    private val messageList: ArrayList<Message>,
-    private val aesKey: SecretKey
+        private val context: Context,
+        private val messageList: ArrayList<Message>,
+        private val aesKey: SecretKey
 ) : RecyclerView.Adapter<ViewHolder>() {
 
-    /* In the `MessageAdapter` class, `ITEM_RECEIVE` and `ITEM_SENT` are constants that are used to
-    determine the view type of each item in the RecyclerView. */
+    /**
+     * In the `MessageAdapter` class, `ITEM_RECEIVE` and `ITEM_SENT` are constants that are used to
+     * determine the view type of each item in the RecyclerView.
+     */
     val ITEM_RECEIVE = 1
     val ITEM_SENT = 2
 
@@ -65,21 +67,22 @@ class MessageAdapter(
      * corresponding message from the list.
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // TODO: handle decryption of the message (if necessary instead of binding to the view holder object directly from)
+        // TODO: handle decryption of the message (if necessary instead of binding to the view
+        // holder object directly from)
         val currentMessage = messageList[position]
         if (holder.javaClass == SentViewHolder::class.java) {
             // do the stuff for sent view holder
             val viewHolder = holder as SentViewHolder
             try {
                 val decryptedText =
-                    currentMessage.message?.let {
-                        CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
-                    }
+                        currentMessage.message?.let {
+                            CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
+                        }
                 holder.sentMessage.text = decryptedText
             } catch (e: Exception) {
                 holder.sentMessage.text = context.getString(R.string.decryption_error)
                 println(
-                    "=========================== exception at SentViewHolder ==========================="
+                        "=========================== exception at SentViewHolder ==========================="
                 )
                 e.printStackTrace()
             }
@@ -88,16 +91,16 @@ class MessageAdapter(
             val viewHolder = holder as ReceiveViewHolder
             try {
                 val decryptedText =
-                    currentMessage.message?.let {
-                        CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
-                    }
+                        currentMessage.message?.let {
+                            CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
+                        }
                 holder.receiveMessage.text = decryptedText
             } catch (e: Exception) {
                 // Toast.makeText(context, "Error decrypting message: ${e.message}",
                 // Toast.LENGTH_SHORT).show()
                 holder.receiveMessage.text = context.getString(R.string.decryption_error)
                 println(
-                    "=========================== exception at SentViewHolder ==========================="
+                        "=========================== exception at SentViewHolder ==========================="
                 )
                 e.printStackTrace()
             }

@@ -69,9 +69,8 @@ class Login : AppCompatActivity() {
     }
 
     /**
-     * The login function attempts to log in a user with the provided email and password, and if
-     * successful, sets the user's role to "Employee" and starts the MainActivity, otherwise it
-     * displays a toast message indicating that the user does not exist.
+     * The `login` function is responsible for logging in a user by checking their email and
+     * password, and then verifying their email before redirecting them to the main activity.
      *
      * @param email The email parameter is a string that represents the user's email address. It is
      * used to identify the user during the login process.
@@ -89,20 +88,12 @@ class Login : AppCompatActivity() {
                     startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user
-                    Toast.makeText(
-                        this@Login,
-                        "Please verify your email first",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    Toast.makeText(this@Login, "Please verify your email first", Toast.LENGTH_SHORT)
+                            .show()
                 }
             } else {
                 // If sign in fails, display a message to the user.
-                Toast.makeText(
-                    this@Login,
-                    "User does not exist",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this@Login, "User does not exist", Toast.LENGTH_SHORT).show()
             }
         }
     }
