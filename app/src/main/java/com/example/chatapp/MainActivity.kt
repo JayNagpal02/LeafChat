@@ -13,6 +13,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import java.security.Security
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Register the Bouncy Castle provider
+        Security.addProvider(BouncyCastleProvider())
 
         mAuth = FirebaseAuth.getInstance()
         mDbRef = FirebaseDatabase.getInstance().reference

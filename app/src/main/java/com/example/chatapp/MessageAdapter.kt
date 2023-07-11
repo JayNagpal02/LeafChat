@@ -1,11 +1,11 @@
 package com.example.chatapp
 
 import android.content.Context
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.firebase.auth.FirebaseAuth
@@ -21,16 +21,17 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 
-class MessageAdapter(private val context: Context, private val messageList: ArrayList<Message>) :
+class MessageAdapter(
+    private val context: Context,
+    private val messageList: ArrayList<Message>,
+    private val aesKey: SecretKey
+) :
     RecyclerView.Adapter<ViewHolder>() {
 
     val ITEM_RECEIVE = 1
     val ITEM_SENT = 2
 
-    val aesKey = CryptoUtils.generateAESKey()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         if (viewType == 1) {
             // inflate receive
             val view: View = LayoutInflater.from(context).inflate(R.layout.receive, parent, false)
@@ -40,55 +41,57 @@ class MessageAdapter(private val context: Context, private val messageList: Arra
             val view: View = LayoutInflater.from(context).inflate(R.layout.send, parent, false)
             return SentViewHolder(view)
         }
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val currentMessage = messageList[position]
-
         if (holder.javaClass == SentViewHolder::class.java) {
             // do the stuff for sent view holder
             val viewHolder = holder as SentViewHolder
             try {
-                val decryptedText =
-                    currentMessage.message?.let { CryptoUtils.decryptAES(it.toByteArray(), aesKey) }
+                val decryptedText = currentMessage.message?.let {
+                    CryptoUtils.decryptAES(
+                        Base64.decode(
+                            it,
+                            Base64.DEFAULT
+                        ), aesKey
+                    )
+                }
                 holder.sentMessage.text = decryptedText
             } catch (e: Exception) {
-                Toast.makeText(
-                    context,
-                    "Error decrypting message: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-                holder.sentMessage.text = "Decryption Error"
+                holder.sentMessage.text = context.getString(R.string.decryption_error)
+                println("=========================== exception at SentViewHolder ===========================")
                 e.printStackTrace()
             }
-
         } else {
             // do the stuff for receive view holder
             val viewHolder = holder as ReceiveViewHolder
             try {
-                val decryptedText =
-                    currentMessage.message?.let { CryptoUtils.decryptAES(it.toByteArray(), aesKey) }
+                val decryptedText = currentMessage.message?.let {
+                    CryptoUtils.decryptAES(
+                        Base64.decode(
+                            it,
+                            Base64.DEFAULT
+                        ), aesKey
+                    )
+                }
                 holder.receiveMessage.text = decryptedText
             } catch (e: Exception) {
-//                Toast.makeText(context, "Error decrypting message: ${e.message}", Toast.LENGTH_SHORT).show()
-                holder.receiveMessage.text = "Decryption Error"
+                // Toast.makeText(context, "Error decrypting message: ${e.message}", Toast.LENGTH_SHORT).show()
+                holder.receiveMessage.text = context.getString(R.string.decryption_error)
+                println("=========================== exception at SentViewHolder ===========================")
                 e.printStackTrace()
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-
         val currentMessage = messageList[position]
-
         if (FirebaseAuth.getInstance().currentUser?.uid.equals(currentMessage.senderId)) {
             return ITEM_SENT
         } else {
             return ITEM_RECEIVE
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -101,15 +104,5 @@ class MessageAdapter(private val context: Context, private val messageList: Arra
 
     class ReceiveViewHolder(itemView: View) : ViewHolder(itemView) {
         val receiveMessage = itemView.findViewById<TextView>(R.id.txt_receive_message)
-    }
-
-    private fun to_byte_array(s: String?): Serializable {
-
-        if (s != null) {
-            val x = s.toByteArray(Charsets.UTF_8)
-            println("to_byte_array : $x")
-            return x
-        }
-        return false;
     }
 }

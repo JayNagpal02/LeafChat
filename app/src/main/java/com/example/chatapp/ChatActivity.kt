@@ -3,6 +3,7 @@ package com.example.chatapp
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +14,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import javax.crypto.SecretKey
 
 class ChatActivity : AppCompatActivity() {
-    val aesKey = CryptoUtils.generateAESKey()
+    private lateinit var aesKey: SecretKey
 
     private lateinit var chatRecyclerView: RecyclerView
     private lateinit var messageBox: EditText
@@ -37,6 +39,9 @@ class ChatActivity : AppCompatActivity() {
         val receiverUid = intent.getStringExtra("uid")
         val senderUid = FirebaseAuth.getInstance().currentUser?.uid
 
+        // Generate AES key once
+        aesKey = CryptoUtils.generateAESKey()
+
         mDbRef = FirebaseDatabase.getInstance().reference
 
         senderRoom = receiverUid + senderUid
@@ -48,7 +53,8 @@ class ChatActivity : AppCompatActivity() {
         messageBox = findViewById(R.id.messageBox)
         sendButton = findViewById(R.id.sendButton)
         messageList = ArrayList()
-        messageAdapter = MessageAdapter(this, messageList)
+        // Initialize MessageAdapter with aesKey
+        messageAdapter = MessageAdapter(this, messageList, aesKey)
 
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
@@ -58,41 +64,37 @@ class ChatActivity : AppCompatActivity() {
             .addValueEventListener(object : ValueEventListener {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onDataChange(snapshot: DataSnapshot) {
-
                     messageList.clear()
-
                     for (postSnapshot in snapshot.children) {
-
                         val message = postSnapshot.getValue(Message::class.java)
                         messageList.add(message!!)
-
                     }
                     messageAdapter.notifyDataSetChanged()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-
                 }
-
             })
-
 
         // adding the message to database
         sendButton.setOnClickListener {
-
             val message = messageBox.text.toString()
-
+            // checking for empty message
             if (message != "") {
-                val encryptedData = CryptoUtils.encryptAES(message, aesKey).toString()
-
+                // encrypt the message before sending to firebase
+//                val encryptedData = CryptoUtils.encryptAES(message, aesKey).toString()
+                val encryptedData =
+                    Base64.encodeToString(CryptoUtils.encryptAES(message, aesKey), Base64.DEFAULT)
+                // creating messageObject
                 val messageObject = Message(encryptedData, senderUid)
-
+                // sending messageObject to firebase
                 mDbRef.child("chats").child(senderRoom!!).child("messages").push()
                     .setValue((messageObject)).addOnSuccessListener {
                         mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
                             .setValue((messageObject))
                     }
             }
+            // setting messageBox back to empty
             messageBox.setText("")
         }
     }
