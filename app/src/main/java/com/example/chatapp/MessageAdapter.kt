@@ -129,14 +129,18 @@ class MessageAdapter(
         return messageList.size
     }
 
-    /* The class SentViewHolder is a ViewHolder subclass in Kotlin that holds a reference to a TextView
-    for displaying sent messages. */
+    /**
+     * The class SentViewHolder is a ViewHolder subclass in Kotlin that holds a reference to a
+     * TextView for displaying sent messages.
+     */
     class SentViewHolder(itemView: View) : ViewHolder(itemView) {
         val sentMessage = itemView.findViewById<TextView>(R.id.txt_sent_message)
     }
 
-    /* The ReceiveViewHolder class is a Kotlin class that extends the ViewHolder class and holds a
-    TextView for receiving messages. */
+    /**
+     * The ReceiveViewHolder class is a Kotlin class that extends the ViewHolder class and holds a
+     * TextView for receiving messages.
+     */
     class ReceiveViewHolder(itemView: View) : ViewHolder(itemView) {
         val receiveMessage = itemView.findViewById<TextView>(R.id.txt_receive_message)
     }
