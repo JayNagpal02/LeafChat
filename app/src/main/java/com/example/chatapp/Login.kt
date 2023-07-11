@@ -1,3 +1,8 @@
+/* The `Login` class handles the login functionality in a Kotlin Android app using Firebase
+authentication. */
+/* The `Login` class is responsible for handling the login functionality in a Kotlin Android app using
+Firebase authentication. */
+/* The code is importing necessary classes and packages for the ChatApp project. */
 package com.example.chatapp
 
 import android.content.Intent
@@ -12,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 class Login : AppCompatActivity() {
 
+    /* These lines of code are declaring private properties in the `Login` class. */
     private lateinit var edtEmail: EditText
     private lateinit var edtPassword: EditText
     private lateinit var btnLogin: Button
@@ -23,6 +29,15 @@ class Login : AppCompatActivity() {
     private lateinit var mDbRef: DatabaseReference
 
 
+    /**
+     * This function is the onCreate method for the login activity in a Kotlin Android app, which sets
+     * up the UI elements and handles the login and sign up button clicks.
+     * 
+     * @param savedInstanceState The savedInstanceState parameter is a Bundle object that contains the
+     * data that was saved in the onSaveInstanceState() method. It is used to restore the activity's
+     * previous state, such as user input or other data, when the activity is recreated after being
+     * destroyed and recreated by the system.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -51,6 +66,15 @@ class Login : AppCompatActivity() {
         }
     }
 
+    /**
+     * The login function attempts to log in a user with the provided email and password, and if
+     * successful, sets the user's role to "Employee" and starts the MainActivity, otherwise it
+     * displays a toast message indicating that the user does not exist.
+     * 
+     * @param email The email parameter is a string that represents the user's email address. It is
+     * used to identify the user during the login process.
+     * @param password The password parameter is a String that represents the user's password.
+     */
     private fun login(email: String, password: String) {
         // logic for logging user
         mAuth.signInWithEmailAndPassword(email, password)

@@ -1,3 +1,4 @@
+/* The User class represents a user in a chat app and stores their name, email, and unique identifier. */
 package com.example.chatapp
 
 class User {
