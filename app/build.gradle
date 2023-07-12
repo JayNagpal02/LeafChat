@@ -52,4 +52,6 @@ dependencies {
     // Bouncy Castle library for extended cryptography support
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
+    // Firebase Cloud Messaging
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
 }

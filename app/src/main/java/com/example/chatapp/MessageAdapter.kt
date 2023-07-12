@@ -18,9 +18,9 @@ import com.google.firebase.auth.FirebaseAuth
 import javax.crypto.SecretKey
 
 class MessageAdapter(
-        private val context: Context,
-        private val messageList: ArrayList<Message>,
-        private val aesKey: SecretKey
+    private val context: Context,
+    private val messageList: ArrayList<Message>,
+    private val aesKey: SecretKey
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     /**
@@ -73,37 +73,50 @@ class MessageAdapter(
         if (holder.javaClass == SentViewHolder::class.java) {
             // do the stuff for sent view holder
             val viewHolder = holder as SentViewHolder
-            try {
-                val decryptedText =
-                        currentMessage.message?.let {
-                            CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
-                        }
-                holder.sentMessage.text = decryptedText
-            } catch (e: Exception) {
-                holder.sentMessage.text = context.getString(R.string.decryption_error)
-                println(
-                        "=========================== exception at SentViewHolder ==========================="
-                )
-                e.printStackTrace()
-            }
+            val x = currentMessage.message
+//            val decryptedText =
+//                x?.let {
+//                    CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
+//                }
+            holder.sentMessage.text = x
+//            try {
+//                val decryptedText =
+//                        currentMessage.message?.let {
+//                            CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
+//                        }
+//                holder.sentMessage.text = decryptedText
+//            } catch (e: Exception) {
+//                holder.sentMessage.text = context.getString(R.string.decryption_error)
+//                println(
+//                        "=========================== exception at SentViewHolder ==========================="
+//                )
+//                e.printStackTrace()
+//            }
         } else {
             // do the stuff for receive view holder
             val viewHolder = holder as ReceiveViewHolder
-            try {
-                val decryptedText =
-                        currentMessage.message?.let {
-                            CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
-                        }
-                holder.receiveMessage.text = decryptedText
-            } catch (e: Exception) {
-                // Toast.makeText(context, "Error decrypting message: ${e.message}",
-                // Toast.LENGTH_SHORT).show()
-                holder.receiveMessage.text = context.getString(R.string.decryption_error)
-                println(
-                        "=========================== exception at SentViewHolder ==========================="
-                )
-                e.printStackTrace()
-            }
+            val x = currentMessage.message
+//            val decryptedText =
+//                x?.let {
+//                    CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
+//                }
+
+            holder.receiveMessage.text = x
+//            try {
+//                val decryptedText =
+//                        currentMessage.message?.let {
+//                            CryptoUtils.decryptAES(Base64.decode(it, Base64.DEFAULT), aesKey)
+//                        }
+//                holder.receiveMessage.text = decryptedText
+//            } catch (e: Exception) {
+//                // Toast.makeText(context, "Error decrypting message: ${e.message}",
+//                // Toast.LENGTH_SHORT).show()
+//                holder.receiveMessage.text = context.getString(R.string.decryption_error)
+//                println(
+//                        "=========================== exception at SentViewHolder ==========================="
+//                )
+//                e.printStackTrace()
+//            }
         }
     }
 
