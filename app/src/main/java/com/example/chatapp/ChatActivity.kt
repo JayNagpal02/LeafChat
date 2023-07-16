@@ -20,11 +20,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import javax.crypto.SecretKey
 
 class ChatActivity : AppCompatActivity() {
     /** These are private properties of the `ChatActivity` class in Kotlin. */
-    private lateinit var aesKey: SecretKey
     private lateinit var chatRecyclerView: RecyclerView
     private lateinit var messageBox: EditText
     private lateinit var sendButton: ImageView
@@ -147,8 +145,8 @@ class ChatActivity : AppCompatActivity() {
 
         for (char in message) {
             if (char.isLetter()) {
-                val base = if (char.isLowerCase()) 'a'.toInt() else 'A'.toInt()
-                val encryptedChar = ((char.toInt() - base + shift) % 26 + base).toChar()
+                val base = if (char.isLowerCase()) 'a'.code else 'A'.code
+                val encryptedChar = ((char.code - base + shift) % 26 + base).toChar()
                 encryptedMessage.append(encryptedChar)
             } else {
                 encryptedMessage.append(char)

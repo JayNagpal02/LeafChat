@@ -15,7 +15,7 @@
         android:src="@drawable/logo"
         tools:ignore="ImageContrastCheck"
         android:importantForAccessibility="no" />
-    
+
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:inputType="textEmailAddress"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:paddingStart="13dp"
+        android:paddingHorizontal="13dp"
         android:importantForAutofill="no" />
 
     <EditText
@@ -38,7 +38,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/edt_background"
         android:hint="@string/password"
-        android:paddingStart="13dp"
+        android:paddingHorizontal="13dp"
         android:inputType="textPassword"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -54,8 +54,7 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:background="@drawable/btn_background"
-        android:layout_centerHorizontal="true"
-        />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/btnSignUp"
@@ -67,7 +66,6 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:background="@drawable/btn_background"
-        android:layout_centerHorizontal="true"
-        />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

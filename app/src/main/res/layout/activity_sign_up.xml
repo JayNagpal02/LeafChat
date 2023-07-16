@@ -28,7 +28,7 @@
         android:background="@drawable/edt_background"
         android:hint="@string/name"
         android:inputType="text"
-        android:paddingStart="13dp"
+        android:paddingHorizontal="13dp"
         android:importantForAutofill="no" />
 
     <EditText
@@ -42,7 +42,7 @@
         android:background="@drawable/edt_background"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:paddingStart="13dp"
+        android:paddingHorizontal="13dp"
         android:importantForAutofill="no" />
 
     <EditText
@@ -56,7 +56,7 @@
         android:background="@drawable/edt_background"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingStart="13dp"
+        android:paddingHorizontal="13dp"
         android:importantForAutofill="no" />
 
     <Button

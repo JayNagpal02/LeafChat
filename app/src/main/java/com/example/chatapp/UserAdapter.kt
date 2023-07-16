@@ -13,8 +13,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class UserAdapter(val context: Context, val userList: ArrayList<User>) :
-        RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val context: Context, private val userList: ArrayList<User>) :
+    RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     /**
      * The function creates and returns a UserViewHolder object by inflating a user_layout view.
@@ -72,6 +72,6 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>) :
      * displaying a user's name.
      */
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textName = itemView.findViewById<TextView>(R.id.txt_name)
+        val textName = itemView.findViewById<TextView>(R.id.txt_name)!!
     }
 }

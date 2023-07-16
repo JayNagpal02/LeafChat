@@ -5,9 +5,7 @@ package com.example.chatapp
  * The `//decryption imports` section is importing necessary classes and packages for encryption and
  * decryption operations in the `MessageAdapter` class.
  */
-// decryption imports
 import android.content.Context
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +13,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.firebase.auth.FirebaseAuth
-import javax.crypto.SecretKey
 
 class MessageAdapter(
     private val context: Context,
@@ -26,8 +23,8 @@ class MessageAdapter(
      * In the `MessageAdapter` class, `ITEM_RECEIVE` and `ITEM_SENT` are constants that are used to
      * determine the view type of each item in the RecyclerView.
      */
-    val ITEM_RECEIVE = 1
-    val ITEM_SENT = 2
+    private val ITEM_RECEIVE = 1
+    private val ITEM_SENT = 2
 
     /**
      * The function returns a ViewHolder based on the viewType, either a ReceiveViewHolder or a
@@ -116,7 +113,7 @@ class MessageAdapter(
      * TextView for displaying sent messages.
      */
     class SentViewHolder(itemView: View) : ViewHolder(itemView) {
-        val sentMessage = itemView.findViewById<TextView>(R.id.txt_sent_message)
+        val sentMessage = itemView.findViewById<TextView>(R.id.txt_sent_message)!!
     }
 
     /**
@@ -124,24 +121,23 @@ class MessageAdapter(
      * TextView for receiving messages.
      */
     class ReceiveViewHolder(itemView: View) : ViewHolder(itemView) {
-        val receiveMessage = itemView.findViewById<TextView>(R.id.txt_receive_message)
+        val receiveMessage = itemView.findViewById<TextView>(R.id.txt_receive_message)!!
     }
 
-    fun decryptMessage(message: String?, shift: Int): String {
+    private fun decryptMessage(message: String?, shift: Int): String {
         val decryptedMessage = StringBuilder()
 
         if (message != null) {
             for (char in message) {
                 if (char.isLetter()) {
-                    val base = if (char.isLowerCase()) 'a'.toInt() else 'A'.toInt()
-                    val decryptedChar = ((char.toInt() - base - shift + 26) % 26 + base).toChar()
+                    val base = if (char.isLowerCase()) 'a'.code else 'A'.code
+                    val decryptedChar = ((char.code - base - shift + 26) % 26 + base).toChar()
                     decryptedMessage.append(decryptedChar)
                 } else {
                     decryptedMessage.append(char)
                 }
             }
         }
-
         return decryptedMessage.toString()
     }
 }
