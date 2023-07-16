@@ -5,4 +5,5 @@
     <color name="green">#FF008000</color>
     <color name="blue">#459DE4</color>
     <color name="red">#FF0000</color>
+    <color name="lightGrey">#B2212121</color>
 </resources>
