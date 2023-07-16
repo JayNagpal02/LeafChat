@@ -66,7 +66,7 @@ class ChatActivity : AppCompatActivity() {
         backButton = findViewById(R.id.backButton)
         messageList = ArrayList()
 
-        // Initialize MessageAdapter with aesKey
+        // Initialize MessageAdapter
         messageAdapter = MessageAdapter(this, messageList)
 
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -79,23 +79,23 @@ class ChatActivity : AppCompatActivity() {
          */
         // logic for adding data to recyclerView
         mDbRef.child("chats")
-            .child(senderRoom!!)
-            .child("messages")
-            .addValueEventListener(
-                object : ValueEventListener {
-                    @SuppressLint("NotifyDataSetChanged")
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        messageList.clear()
-                        for (postSnapshot in snapshot.children) {
-                            val message = postSnapshot.getValue(Message::class.java)
-                            messageList.add(message!!)
-                        }
-                        messageAdapter.notifyDataSetChanged()
-                    }
+                .child(senderRoom!!)
+                .child("messages")
+                .addValueEventListener(
+                        object : ValueEventListener {
+                            @SuppressLint("NotifyDataSetChanged")
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                messageList.clear()
+                                for (postSnapshot in snapshot.children) {
+                                    val message = postSnapshot.getValue(Message::class.java)
+                                    messageList.add(message!!)
+                                }
+                                messageAdapter.notifyDataSetChanged()
+                            }
 
-                    override fun onCancelled(error: DatabaseError) {}
-                }
-            )
+                            override fun onCancelled(error: DatabaseError) {}
+                        }
+                )
 
         /**
          * The code snippet is adding an `OnClickListener` to the `sendButton` ImageView. When the
@@ -106,26 +106,24 @@ class ChatActivity : AppCompatActivity() {
             val message = messageBox.text.toString()
             // checking for empty message
             if (message != "") {
-                /**
-                 * encrypt the message before sending to firebase
-                 */
+                /** encrypt the message before sending to firebase */
                 val mes = encryptMessage(message, 3)
 
                 // creating messageObject
                 val messageObject = Message(mes, senderUid)
                 // sending messageObject to firebase
                 mDbRef.child("chats")
-                    .child(senderRoom!!)
-                    .child("messages")
-                    .push()
-                    .setValue((messageObject))
-                    .addOnSuccessListener {
-                        mDbRef.child("chats")
-                            .child(receiverRoom!!)
-                            .child("messages")
-                            .push()
-                            .setValue((messageObject))
-                    }
+                        .child(senderRoom!!)
+                        .child("messages")
+                        .push()
+                        .setValue((messageObject))
+                        .addOnSuccessListener {
+                            mDbRef.child("chats")
+                                    .child(receiverRoom!!)
+                                    .child("messages")
+                                    .push()
+                                    .setValue((messageObject))
+                        }
             }
             // setting messageBox back to empty
             messageBox.setText("")
@@ -140,6 +138,17 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * The function encrypts a given message by shifting each letter by a specified number of
+     * positions in the alphabet.
+     *
+     * @param message The `message` parameter is a string that represents the message that you want
+     * to encrypt.
+     * @param shift The `shift` parameter is an integer value that determines how much each letter
+     * in the message should be shifted in the encryption process.
+     * @return The function `encryptMessage` returns an encrypted version of the input message as a
+     * string.
+     */
     private fun encryptMessage(message: String, shift: Int): String {
         val encryptedMessage = StringBuilder()
 

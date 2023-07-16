@@ -14,10 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.firebase.auth.FirebaseAuth
 
-class MessageAdapter(
-    private val context: Context,
-    private val messageList: ArrayList<Message>
-) : RecyclerView.Adapter<ViewHolder>() {
+class MessageAdapter(private val context: Context, private val messageList: ArrayList<Message>) :
+        RecyclerView.Adapter<ViewHolder>() {
 
     /**
      * In the `MessageAdapter` class, `ITEM_RECEIVE` and `ITEM_SENT` are constants that are used to
@@ -70,15 +68,17 @@ class MessageAdapter(
             // do the stuff for sent view holder
             val viewHolder = holder as SentViewHolder
             val x = currentMessage.message
-            val y = decryptMessage(x, 3)
+            /** decrypt the message before sending to UI */
+            val mes = decryptMessage(x, 3)
 
-            holder.sentMessage.text = y
+            holder.sentMessage.text = mes
         } else {
             // do the stuff for receive view holder
             val viewHolder = holder as ReceiveViewHolder
             val x = currentMessage.message
-            val y = decryptMessage(x, 3)
-            holder.receiveMessage.text = y
+            val mes = decryptMessage(x, 3)
+            /** decrypt the message before sending to UI */
+            holder.receiveMessage.text = mes
         }
     }
 
@@ -124,6 +124,16 @@ class MessageAdapter(
         val receiveMessage = itemView.findViewById<TextView>(R.id.txt_receive_message)!!
     }
 
+    /**
+     * The function `decryptMessage` takes a message and a shift value, and returns the decrypted
+     * message by shifting each letter in the message by the specified shift value.
+     *
+     * @param message The `message` parameter is a string that represents the encrypted message that
+     * you want to decrypt.
+     * @param shift The `shift` parameter is an integer that represents the number of positions to
+     * shift each letter in the message during decryption.
+     * @return a decrypted message as a string.
+     */
     private fun decryptMessage(message: String?, shift: Int): String {
         val decryptedMessage = StringBuilder()
 

@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class UserAdapter(private val context: Context, private val userList: ArrayList<User>) :
-    RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+        RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     /**
      * The function creates and returns a UserViewHolder object by inflating a user_layout view.
