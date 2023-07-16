@@ -9,7 +9,6 @@ package com.example.chatapp
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Base64
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -56,9 +55,6 @@ class ChatActivity : AppCompatActivity() {
         val receiverUid = intent.getStringExtra("uid")
         val senderUid = FirebaseAuth.getInstance().currentUser?.uid
 
-        // Generate AES key once
-        aesKey = CryptoUtils.generateAESKey()
-
         mDbRef = FirebaseDatabase.getInstance().reference
 
         senderRoom = receiverUid + senderUid
@@ -73,7 +69,7 @@ class ChatActivity : AppCompatActivity() {
         messageList = ArrayList()
 
         // Initialize MessageAdapter with aesKey
-        messageAdapter = MessageAdapter(this, messageList, aesKey)
+        messageAdapter = MessageAdapter(this, messageList)
 
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
@@ -112,14 +108,13 @@ class ChatActivity : AppCompatActivity() {
             val message = messageBox.text.toString()
             // checking for empty message
             if (message != "") {
-                // encrypt the message before sending to firebase
-//                val encryptedData =
-//                        Base64.encodeToString(
-//                                CryptoUtils.encryptAES(message, aesKey),
-//                                Base64.DEFAULT
-//                        )
+                /**
+                 * encrypt the message before sending to firebase
+                 */
+                val mes = encryptMessage(message, 3)
+
                 // creating messageObject
-                val messageObject = Message(message, senderUid)
+                val messageObject = Message(mes, senderUid)
                 // sending messageObject to firebase
                 mDbRef.child("chats")
                     .child(senderRoom!!)
@@ -145,5 +140,21 @@ class ChatActivity : AppCompatActivity() {
             finish()
             startActivity(intent)
         }
+    }
+
+    private fun encryptMessage(message: String, shift: Int): String {
+        val encryptedMessage = StringBuilder()
+
+        for (char in message) {
+            if (char.isLetter()) {
+                val base = if (char.isLowerCase()) 'a'.toInt() else 'A'.toInt()
+                val encryptedChar = ((char.toInt() - base + shift) % 26 + base).toChar()
+                encryptedMessage.append(encryptedChar)
+            } else {
+                encryptedMessage.append(char)
+            }
+        }
+
+        return encryptedMessage.toString()
     }
 }

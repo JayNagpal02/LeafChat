@@ -82,18 +82,15 @@ class Login : AppCompatActivity() {
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
                 val verification = mAuth.currentUser?.isEmailVerified
-                val intent = Intent(this@Login, MainActivity::class.java)
-                finish()
-                startActivity(intent)
-//                if (verification == true) {
-//                    val intent = Intent(this@Login, MainActivity::class.java)
-//                    finish()
-//                    startActivity(intent)
-//                } else {
-//                    // If sign in fails, display a message to the user
-//                    Toast.makeText(this@Login, "Please verify your email first", Toast.LENGTH_SHORT)
-//                            .show()
-//                }
+                if (verification == true) {
+                    val intent = Intent(this@Login, MainActivity::class.java)
+                    finish()
+                    startActivity(intent)
+                } else {
+                    // If sign in fails, display a message to the user
+                    Toast.makeText(this@Login, "Please verify your email first", Toast.LENGTH_SHORT)
+                        .show()
+                }
             } else {
                 // If sign in fails, display a message to the user.
                 Toast.makeText(this@Login, "User does not exist", Toast.LENGTH_SHORT).show()
