@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo2"
         tools:ignore="ImageContrastCheck" />
 
     <EditText
