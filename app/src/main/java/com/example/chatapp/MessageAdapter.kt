@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.firebase.auth.FirebaseAuth
 
 class MessageAdapter(private val context: Context, private val messageList: ArrayList<Message>) :
-        RecyclerView.Adapter<ViewHolder>() {
+    RecyclerView.Adapter<ViewHolder>() {
 
     /**
      * In the `MessageAdapter` class, `ITEM_RECEIVE` and `ITEM_SENT` are constants that are used to
@@ -68,6 +68,7 @@ class MessageAdapter(private val context: Context, private val messageList: Arra
             // do the stuff for sent view holder
             val viewHolder = holder as SentViewHolder
             val x = currentMessage.message
+
             /** decrypt the message before sending to UI */
             val mes = decryptMessage(x, 3)
 
@@ -151,3 +152,4 @@ class MessageAdapter(private val context: Context, private val messageList: Arra
         return decryptedMessage.toString()
     }
 }
+
